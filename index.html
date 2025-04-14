@@ -27,8 +27,10 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
     :root {
-      --primary: #2ecc71; /* Special green color */
-      --primary-dark: #27ae60; /* Darker green for hover */
+      --primary: #555555; /* Gray color for buttons */
+      --primary-dark: #333333; /* Darker gray for hover */
+      --accent-green: #2ecc71;
+      --accent-red: #FF5252;
       --gray-900: #0F0F0F;
       --gray-800: #1A1A1A;
       --gray-700: #2E2E2E;
@@ -43,10 +45,10 @@
       background: var(--primary); color: white; border: none; padding: 12px 24px;
       border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 15px;
       transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;
-      box-shadow: 0 4px 20px rgba(46, 204, 113, 0.3);
+      box-shadow: 0 4px 20px rgba(85, 85, 85, 0.3);
     }
-    .wallet-btn:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 25px rgba(46, 204, 113, 0.4); }
-    .wallet-btn img { width: 20px; height: 20px; }
+    .wallet-btn:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 25px rgba(85, 85, 85, 0.4); }
+    .wallet-btn i { font-size: 16px; }
     .wallet-address {
       background: var(--gray-800); padding: 10px 20px; border-radius: 12px;
       font-size: 14px; font-weight: 500; display: none;
@@ -87,34 +89,51 @@
       border-radius: 3px; margin-bottom: 24px; overflow: hidden;
     }
     .progress-bar {
-      height: 100%; width: 65%; background: var(--primary);
+      height: 100%; width: 80%; background: var(--accent-green);
       border-radius: 3px; transition: width 0.5s ease;
     }
     .mint-btn {
       background: var(--primary); color: white; border: none;
       padding: 16px; border-radius: 12px; cursor: pointer;
       font-weight: 600; font-size: 16px; transition: all 0.3s ease;
-      width: 100%; box-shadow: 0 4px 20px rgba(46, 204, 113, 0.3);
+      width: 100%; box-shadow: 0 4px 20px rgba(85, 85, 85, 0.3);
     }
     .mint-btn:hover {
       background: var(--primary-dark); transform: translateY(-3px);
-      box-shadow: 0 8px 30px rgba(46, 204, 113, 0.5);
+      box-shadow: 0 8px 30px rgba(85, 85, 85, 0.5);
     }
-    .mint-price { margin-top: 12px; font-size: 14px; color: var(--gray-400); }
+    .mint-price { 
+      margin-top: 12px; 
+      font-size: 14px; 
+      color: var(--gray-400);
+      font-family: monospace;
+    }
     .particles {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       pointer-events: none; z-index: -1;
     }
     .particle {
-      position: absolute; width: 2px; height: 2px;
+      position: absolute;
       border-radius: 50%;
       animation: float 15s infinite linear;
+      opacity: 0.7;
+    }
+    .wave-particle {
+      position: absolute;
+      animation: wave 8s infinite ease-in-out;
+      opacity: 0.4;
     }
     @keyframes float {
       0% { transform: translateY(0) rotate(0deg); opacity: 0; }
       10% { opacity: 1; }
       90% { opacity: 1; }
       100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes wave {
+      0%, 100% { transform: translateX(0) translateY(0); }
+      25% { transform: translateX(-20px) translateY(-10px); }
+      50% { transform: translateX(0) translateY(-20px); }
+      75% { transform: translateX(20px) translateY(-10px); }
     }
 
     @media (max-width: 768px) {
@@ -131,7 +150,7 @@
   <div class="container">
     <header>
       <button class="wallet-btn" id="connectWallet">
-        <img src="https://i.imgur.com/8ZMN5kL.png" alt="Fox"> My Wallet
+        <i class="fas fa-user"></i> About
       </button>
       <div class="wallet-address" id="walletAddress"></div>
     </header>
@@ -156,7 +175,7 @@
           <div class="progress-bar"></div>
         </div>
         <button class="mint-btn" id="mintButton">MINT NOW</button>
-        <div class="mint-price">Price: 0.00044 ETH</div>
+        <div class="mint-price">•••• •− •−•• −•− •− −− •− −•−−</div>
       </div>
     </main>
   </div>
@@ -223,21 +242,17 @@
         const contractAddress = '0xCEF937447B21879E2bd4abAdbCf98f582aD506Fb';
         const contract = new ethers.Contract(contractAddress, abi, signer);
 
-        // دریافت تعداد NFTهای باقی‌مانده
         const remainingNFTs = await contract.remainingNFTs();
-        console.log("Remaining NFTs:", remainingNFTs.toString());  // چاپ تعداد NFT باقی‌مانده
+        console.log("Remaining NFTs:", remainingNFTs.toString());
 
-        // اگر هیچ NFT باقی نمانده بود، تراکنش انجام نمی‌شود
         if (remainingNFTs.toNumber() <= 0) {
           alert("No NFTs left to mint.");
           return;
         }
 
-        // دریافت قیمت
         const price = await contract.price();
-        console.log("Price for minting:", price.toString());  // چاپ قیمت
+        console.log("Price for minting:", price.toString());
 
-        // اگر قیمت درست دریافت شد، تراکنش رو ارسال کن
         if (price > 0) {
           const txResponse = await contract.claim({ value: price });
 
@@ -261,22 +276,50 @@
     });
 
     function createParticle() {
+      const colors = [var(--accent-green), var(--accent-red)];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      
+      // Create regular floating particles
       const particle = document.createElement('div');
       particle.classList.add('particle');
       document.getElementById('particles').appendChild(particle);
       particle.style.left = `${Math.random() * window.innerWidth}px`;
-      particle.style.top = `${Math.random() * window.innerHeight}px`;
-      const size = Math.random() * 3 + 2;
+      particle.style.top = `${window.innerHeight}px`;
+      const size = Math.random() * 4 + 2;
       particle.style.width = `${size}px`;
       particle.style.height = `${size}px`;
+      particle.style.background = color;
+      particle.style.opacity = Math.random() * 0.5 + 0.2;
       
-      // Only red and green colors
-      const colors = ['#FF5252', '#2ecc71']; // Red and green
-      const randomColor = colors[Math.floor(Math.random() * colors.length)];
-      particle.style.background = randomColor;
+      // Create wave-like particles
+      if (Math.random() > 0.7) {
+        const wave = document.createElement('div');
+        wave.classList.add('wave-particle');
+        document.getElementById('particles').appendChild(wave);
+        wave.style.left = `${Math.random() * window.innerWidth}px`;
+        wave.style.top = `${window.innerHeight}px`;
+        wave.style.width = `${Math.random() * 100 + 50}px`;
+        wave.style.height = `${Math.random() * 100 + 50}px`;
+        wave.style.background = color;
+        wave.style.borderRadius = '50%';
+        wave.style.filter = 'blur(10px)';
+        
+        setTimeout(() => {
+          wave.remove();
+        }, 8000);
+      }
+
+      setTimeout(() => {
+        particle.remove();
+      }, 15000);
     }
 
-    setInterval(createParticle, 100);
+    // Create initial particles
+    for (let i = 0; i < 50; i++) {
+      createParticle();
+    }
+    
+    setInterval(createParticle, 300);
   </script>
 </body>
 </html>
