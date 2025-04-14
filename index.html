@@ -27,8 +27,8 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
     :root {
-      --primary: #8A5AFF;
-      --primary-dark: #6E3AFF;
+      --primary: #2ecc71; /* Special green color */
+      --primary-dark: #27ae60; /* Darker green for hover */
       --gray-900: #0F0F0F;
       --gray-800: #1A1A1A;
       --gray-700: #2E2E2E;
@@ -43,10 +43,10 @@
       background: var(--primary); color: white; border: none; padding: 12px 24px;
       border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 15px;
       transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;
-      box-shadow: 0 4px 20px rgba(138, 90, 255, 0.3);
+      box-shadow: 0 4px 20px rgba(46, 204, 113, 0.3);
     }
-    .wallet-btn:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 25px rgba(138, 90, 255, 0.4); }
-    .wallet-btn i { font-size: 16px; }
+    .wallet-btn:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 25px rgba(46, 204, 113, 0.4); }
+    .wallet-btn img { width: 20px; height: 20px; }
     .wallet-address {
       background: var(--gray-800); padding: 10px 20px; border-radius: 12px;
       font-size: 14px; font-weight: 500; display: none;
@@ -94,11 +94,11 @@
       background: var(--primary); color: white; border: none;
       padding: 16px; border-radius: 12px; cursor: pointer;
       font-weight: 600; font-size: 16px; transition: all 0.3s ease;
-      width: 100%; box-shadow: 0 4px 20px rgba(138, 90, 255, 0.3);
+      width: 100%; box-shadow: 0 4px 20px rgba(46, 204, 113, 0.3);
     }
     .mint-btn:hover {
       background: var(--primary-dark); transform: translateY(-3px);
-      box-shadow: 0 8px 30px rgba(138, 90, 255, 0.5);
+      box-shadow: 0 8px 30px rgba(46, 204, 113, 0.5);
     }
     .mint-price { margin-top: 12px; font-size: 14px; color: var(--gray-400); }
     .particles {
@@ -116,92 +116,22 @@
       90% { opacity: 1; }
       100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
     }
-    
-    /* Introduction page styles */
-    .intro-page {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: var(--gray-900);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      text-align: center;
-      padding: 20px;
-    }
-    .intro-content {
-      max-width: 600px;
-      padding: 40px;
-      background: var(--gray-800);
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    }
-    .intro-title {
-      font-size: 32px;
-      margin-bottom: 20px;
-      color: var(--primary);
-    }
-    .intro-text {
-      font-size: 16px;
-      line-height: 1.6;
-      margin-bottom: 30px;
-      color: var(--gray-200);
-    }
-    .start-btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 14px 28px;
-      border-radius: 12px;
-      font-size: 18px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    .start-btn:hover {
-      background: var(--primary-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(138, 90, 255, 0.4);
-    }
 
     @media (max-width: 768px) {
       .main-content { padding: 20px 0 60px; }
       .nft-card, .mint-section { max-width: 100%; }
       .nft-title { font-size: 20px; }
       .nft-description { font-size: 14px; }
-      .intro-content {
-        padding: 20px;
-      }
-      .intro-title {
-        font-size: 24px;
-      }
     }
   </style>
 </head>
 <body>
   <div class="particles" id="particles"></div>
   
-  <!-- Introduction Page -->
-  <div class="intro-page" id="introPage">
-    <div class="intro-content">
-      <h1 class="intro-title">Welcome to Premium NFT Mint</h1>
-      <p class="intro-text">
-        Discover and mint exclusive NFTs in our premium collection. 
-        Each NFT is a unique digital asset with special perks and benefits. 
-        Connect your wallet to get started!
-      </p>
-      <button class="start-btn" id="startButton">Start Exploring</button>
-    </div>
-  </div>
-
-  <div class="container" id="mainContainer" style="display: none;">
+  <div class="container">
     <header>
       <button class="wallet-btn" id="connectWallet">
-        🦊 Connect Wallet
+        <img src="https://i.imgur.com/8ZMN5kL.png" alt="Fox"> My Wallet
       </button>
       <div class="wallet-address" id="walletAddress"></div>
     </header>
@@ -219,7 +149,7 @@
 
       <div class="mint-section">
         <div class="mint-stats">
-          <span>20% Minted</span>
+          <span>20% Life</span>
           <span>20/100</span>
         </div>
         <div class="progress-container">
@@ -248,16 +178,6 @@
 
   <script>
     let provider, signer, address;
-
-    // Handle introduction page
-    const introPage = document.getElementById('introPage');
-    const startButton = document.getElementById('startButton');
-    const mainContainer = document.getElementById('mainContainer');
-
-    startButton.addEventListener('click', () => {
-      introPage.style.display = 'none';
-      mainContainer.style.display = 'block';
-    });
 
     const connectWallet = document.getElementById('connectWallet');
     const walletAddress = document.getElementById('walletAddress');
@@ -350,8 +270,8 @@
       particle.style.width = `${size}px`;
       particle.style.height = `${size}px`;
       
-      // Random color selection
-      const colors = ['#8A5AFF', '#4CAF50', '#FF5252']; // Purple, Green, Red
+      // Only red and green colors
+      const colors = ['#FF5252', '#2ecc71']; // Red and green
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
       particle.style.background = randomColor;
     }
