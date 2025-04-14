@@ -107,7 +107,7 @@
     }
     .particle {
       position: absolute; width: 2px; height: 2px;
-      background: rgba(138, 90, 255, 0.5); border-radius: 50%;
+      border-radius: 50%;
       animation: float 15s infinite linear;
     }
     @keyframes float {
@@ -116,20 +116,92 @@
       90% { opacity: 1; }
       100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
     }
+    
+    /* Introduction page styles */
+    .intro-page {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--gray-900);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      text-align: center;
+      padding: 20px;
+    }
+    .intro-content {
+      max-width: 600px;
+      padding: 40px;
+      background: var(--gray-800);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    .intro-title {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: var(--primary);
+    }
+    .intro-text {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      color: var(--gray-200);
+    }
+    .start-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .start-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(138, 90, 255, 0.4);
+    }
+
     @media (max-width: 768px) {
       .main-content { padding: 20px 0 60px; }
       .nft-card, .mint-section { max-width: 100%; }
       .nft-title { font-size: 20px; }
       .nft-description { font-size: 14px; }
+      .intro-content {
+        padding: 20px;
+      }
+      .intro-title {
+        font-size: 24px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="particles" id="particles"></div>
-  <div class="container">
+  
+  <!-- Introduction Page -->
+  <div class="intro-page" id="introPage">
+    <div class="intro-content">
+      <h1 class="intro-title">Welcome to Premium NFT Mint</h1>
+      <p class="intro-text">
+        Discover and mint exclusive NFTs in our premium collection. 
+        Each NFT is a unique digital asset with special perks and benefits. 
+        Connect your wallet to get started!
+      </p>
+      <button class="start-btn" id="startButton">Start Exploring</button>
+    </div>
+  </div>
+
+  <div class="container" id="mainContainer" style="display: none;">
     <header>
       <button class="wallet-btn" id="connectWallet">
-        <i class="fas fa-wallet"></i> Connect Wallet
+        🦊 Connect Wallet
       </button>
       <div class="wallet-address" id="walletAddress"></div>
     </header>
@@ -177,6 +249,16 @@
   <script>
     let provider, signer, address;
 
+    // Handle introduction page
+    const introPage = document.getElementById('introPage');
+    const startButton = document.getElementById('startButton');
+    const mainContainer = document.getElementById('mainContainer');
+
+    startButton.addEventListener('click', () => {
+      introPage.style.display = 'none';
+      mainContainer.style.display = 'block';
+    });
+
     const connectWallet = document.getElementById('connectWallet');
     const walletAddress = document.getElementById('walletAddress');
 
@@ -200,55 +282,55 @@
     });
 
     const mintButton = document.getElementById('mintButton');
-mintButton.addEventListener('click', async () => {
-  if (!window.sdk?.wallet?.ethProvider) {
-    alert('Please open this app inside Warpcast to connect your wallet.');
-    return;
-  }
+    mintButton.addEventListener('click', async () => {
+      if (!window.sdk?.wallet?.ethProvider) {
+        alert('Please open this app inside Warpcast to connect your wallet.');
+        return;
+      }
 
-  try {
-    const ethProvider = window.sdk.wallet.ethProvider;
-    const signerProvider = new ethers.BrowserProvider(ethProvider);
-    const signer = await signerProvider.getSigner();
-    const address = await signer.getAddress();
+      try {
+        const ethProvider = window.sdk.wallet.ethProvider;
+        const signerProvider = new ethers.BrowserProvider(ethProvider);
+        const signer = await signerProvider.getSigner();
+        const address = await signer.getAddress();
 
-    const abi = [
-      { "inputs": [], "name": "claim", "outputs": [], "stateMutability": "payable", "type": "function" },
-      { "inputs": [], "name": "price", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
-      { "inputs": [], "name": "remainingNFTs", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }
-    ];
+        const abi = [
+          { "inputs": [], "name": "claim", "outputs": [], "stateMutability": "payable", "type": "function" },
+          { "inputs": [], "name": "price", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
+          { "inputs": [], "name": "remainingNFTs", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }
+        ];
 
-    const contractAddress = '0xCEF937447B21879E2bd4abAdbCf98f582aD506Fb';
-    const contract = new ethers.Contract(contractAddress, abi, signer);
+        const contractAddress = '0xCEF937447B21879E2bd4abAdbCf98f582aD506Fb';
+        const contract = new ethers.Contract(contractAddress, abi, signer);
 
-    // دریافت تعداد NFTهای باقی‌مانده
-    const remainingNFTs = await contract.remainingNFTs();
-    console.log("Remaining NFTs:", remainingNFTs.toString());  // چاپ تعداد NFT باقی‌مانده
+        // دریافت تعداد NFTهای باقی‌مانده
+        const remainingNFTs = await contract.remainingNFTs();
+        console.log("Remaining NFTs:", remainingNFTs.toString());  // چاپ تعداد NFT باقی‌مانده
 
-    // اگر هیچ NFT باقی نمانده بود، تراکنش انجام نمی‌شود
-    if (remainingNFTs.toNumber() <= 0) {
-      alert("No NFTs left to mint.");
-      return;
-    }
+        // اگر هیچ NFT باقی نمانده بود، تراکنش انجام نمی‌شود
+        if (remainingNFTs.toNumber() <= 0) {
+          alert("No NFTs left to mint.");
+          return;
+        }
 
-    // دریافت قیمت
-    const price = await contract.price();
-    console.log("Price for minting:", price.toString());  // چاپ قیمت
+        // دریافت قیمت
+        const price = await contract.price();
+        console.log("Price for minting:", price.toString());  // چاپ قیمت
 
-    // اگر قیمت درست دریافت شد، تراکنش رو ارسال کن
-    if (price > 0) {
-      const txResponse = await contract.claim({ value: price });
+        // اگر قیمت درست دریافت شد، تراکنش رو ارسال کن
+        if (price > 0) {
+          const txResponse = await contract.claim({ value: price });
 
-      console.log('Transaction sent:', txResponse.hash);
-      alert('Transaction submitted!');
-    } else {
-      alert('Price is not valid.');
-    }
+          console.log('Transaction sent:', txResponse.hash);
+          alert('Transaction submitted!');
+        } else {
+          alert('Price is not valid.');
+        }
 
-  } catch (err) {
-    console.error('Minting failed:', err);
-    alert('Transaction failed:\n' + (err?.message || JSON.stringify(err)));
-  }
+      } catch (err) {
+        console.error('Minting failed:', err);
+        alert('Transaction failed:\n' + (err?.message || JSON.stringify(err)));
+      }
     });
 
     walletAddress.addEventListener('click', () => {
@@ -267,6 +349,11 @@ mintButton.addEventListener('click', async () => {
       const size = Math.random() * 3 + 2;
       particle.style.width = `${size}px`;
       particle.style.height = `${size}px`;
+      
+      // Random color selection
+      const colors = ['#8A5AFF', '#4CAF50', '#FF5252']; // Purple, Green, Red
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      particle.style.background = randomColor;
     }
 
     setInterval(createParticle, 100);
