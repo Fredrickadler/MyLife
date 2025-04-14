@@ -37,114 +37,248 @@
       --gray-400: #A0A0A0;
       --gray-200: #E5E5E5;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Space Grotesk', sans-serif; }
-    body { background-color: var(--gray-900); color: white; min-height: 100vh; overflow-x: hidden; }
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-    header { display: flex; justify-content: flex-end; padding: 24px 0; }
+    
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      font-family: 'Space Grotesk', sans-serif; 
+    }
+    
+    body { 
+      background-color: var(--gray-900); 
+      color: white; 
+      min-height: 100vh; 
+      overflow-x: hidden; 
+    }
+    
+    .container { 
+      max-width: 1200px; 
+      margin: 0 auto; 
+      padding: 0 24px; 
+    }
+    
+    header { 
+      display: flex; 
+      justify-content: flex-end; 
+      padding: 24px 0; 
+    }
+    
     .wallet-btn {
-      background: var(--primary); color: white; border: none; padding: 12px 24px;
-      border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 15px;
-      transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;
+      background: var(--primary); 
+      color: white; 
+      border: none; 
+      padding: 12px 24px;
+      border-radius: 12px; 
+      cursor: pointer; 
+      font-weight: 600; 
+      font-size: 15px;
+      transition: all 0.3s ease; 
+      display: flex; 
+      align-items: center; 
+      gap: 8px;
       box-shadow: 0 4px 20px rgba(85, 85, 85, 0.3);
+      position: relative;
+      overflow: hidden;
     }
-    .wallet-btn:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 25px rgba(85, 85, 85, 0.4); }
-    .wallet-btn i { font-size: 16px; }
+    
+    .wallet-btn:hover { 
+      background: var(--primary-dark); 
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 25px rgba(85, 85, 85, 0.4); 
+    }
+    
+    .wallet-btn i { 
+      font-size: 16px; 
+    }
+    
     .wallet-address {
-      background: var(--gray-800); padding: 10px 20px; border-radius: 12px;
-      font-size: 14px; font-weight: 500; display: none;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); cursor: pointer;
+      background: var(--gray-800); 
+      padding: 10px 20px; 
+      border-radius: 12px;
+      font-size: 14px; 
+      font-weight: 500; 
+      display: none;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); 
+      cursor: pointer;
     }
+    
     .main-content {
-      display: flex; flex-direction: column; align-items: center;
+      display: flex; 
+      flex-direction: column; 
+      align-items: center;
       padding: 40px 0 80px;
     }
+    
     .nft-card {
-      width: 100%; max-width: 420px; margin-bottom: 40px; position: relative;
-      overflow: hidden; border-radius: 16px;
+      width: 100%; 
+      max-width: 420px; 
+      margin-bottom: 40px; 
+      position: relative;
+      overflow: hidden; 
+      border-radius: 16px;
       box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
     }
+    
     .nft-image {
-      width: 100%; aspect-ratio: 1/1; object-fit: cover;
-      display: block; transition: transform 0.5s ease;
+      width: 100%; 
+      aspect-ratio: 1/1; 
+      object-fit: cover;
+      display: block; 
+      transition: transform 0.5s ease;
     }
-    .nft-card:hover .nft-image { transform: scale(1.03); }
+    
+    .nft-card:hover .nft-image { 
+      transform: scale(1.03); 
+    }
+    
     .nft-overlay {
-      position: absolute; bottom: 0; left: 0; right: 0;
+      position: absolute; 
+      bottom: 0; 
+      left: 0; 
+      right: 0;
       background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-      padding: 24px; color: white;
+      padding: 24px; 
+      color: white;
     }
-    .nft-title { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+    
+    .nft-title { 
+      font-size: 24px; 
+      font-weight: 700; 
+      margin-bottom: 8px; 
+    }
+    
     .nft-description {
-      font-size: 15px; color: var(--gray-200); opacity: 0.9; line-height: 1.5;
+      font-size: 15px; 
+      color: var(--gray-200); 
+      opacity: 0.9; 
+      line-height: 1.5;
     }
+    
     .mint-section {
-      width: 100%; max-width: 420px; text-align: center;
+      width: 100%; 
+      max-width: 420px; 
+      text-align: center;
     }
+    
     .mint-stats {
-      display: flex; justify-content: space-between;
-      color: var(--gray-400); font-size: 14px; margin-bottom: 12px;
+      display: flex; 
+      justify-content: space-between;
+      color: var(--gray-400); 
+      font-size: 14px; 
+      margin-bottom: 12px;
     }
+    
     .progress-container {
-      height: 6px; width: 100%; background: var(--gray-700);
-      border-radius: 3px; margin-bottom: 24px; overflow: hidden;
+      height: 6px; 
+      width: 100%; 
+      background: var(--gray-700);
+      border-radius: 3px; 
+      margin-bottom: 24px; 
+      overflow: hidden;
     }
+    
     .progress-bar {
-      height: 100%; width: 80%; background: var(--accent-green);
-      border-radius: 3px; transition: width 0.5s ease;
+      height: 100%; 
+      width: 80%; 
+      background: var(--accent-green);
+      border-radius: 3px; 
+      transition: width 0.5s ease;
     }
+    
     .mint-btn {
-      background: var(--primary); color: white; border: none;
-      padding: 16px; border-radius: 12px; cursor: pointer;
-      font-weight: 600; font-size: 16px; transition: all 0.3s ease;
-      width: 100%; box-shadow: 0 4px 20px rgba(85, 85, 85, 0.3);
+      background: var(--primary); 
+      color: white; 
+      border: none;
+      padding: 16px; 
+      border-radius: 12px; 
+      cursor: pointer;
+      font-weight: 600; 
+      font-size: 16px; 
+      transition: all 0.3s ease;
+      width: 100%; 
+      box-shadow: 0 4px 20px rgba(85, 85, 85, 0.3);
+      position: relative;
+      overflow: hidden;
     }
+    
     .mint-btn:hover {
-      background: var(--primary-dark); transform: translateY(-3px);
+      background: var(--primary-dark); 
+      transform: translateY(-3px);
       box-shadow: 0 8px 30px rgba(85, 85, 85, 0.5);
     }
+    
     .mint-price { 
       margin-top: 12px; 
       font-size: 14px; 
       color: var(--gray-400);
       font-family: monospace;
     }
+    
     .particles {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: -1;
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%;
+      pointer-events: none; 
+      z-index: -1;
     }
+    
     .particle {
       position: absolute;
       border-radius: 50%;
       animation: float 15s infinite linear;
       opacity: 0.7;
     }
+    
     .wave-particle {
       position: absolute;
       animation: wave 8s infinite ease-in-out;
       opacity: 0.4;
     }
+    
     .star {
-      position: absolute;
-      background: white;
+      position: fixed;
+      background: rgba(255, 255, 255, 0.8);
       border-radius: 50%;
       animation: twinkle var(--duration) infinite ease-in-out;
       opacity: 0;
+      pointer-events: none;
+      will-change: transform, opacity;
     }
+    
+    .wave-effect {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: scale(0);
+      animation: button-wave 0.6s ease-out;
+      pointer-events: none;
+    }
+
     @keyframes float {
       0% { transform: translateY(0) rotate(0deg); opacity: 0; }
       10% { opacity: 1; }
       90% { opacity: 1; }
       100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
     }
+    
     @keyframes wave {
       0%, 100% { transform: translateX(0) translateY(0); }
       25% { transform: translateX(-20px) translateY(-10px); }
       50% { transform: translateX(0) translateY(-20px); }
       75% { transform: translateX(20px) translateY(-10px); }
     }
+    
     @keyframes twinkle {
-      0%, 100% { opacity: 0; transform: scale(0.5); }
-      50% { opacity: 0.8; transform: scale(1); }
+      0%, 100% { opacity: 0; transform: scale(0.3); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+    
+    @keyframes button-wave {
+      from { transform: scale(0); opacity: 1; }
+      to { transform: scale(4); opacity: 0; }
     }
 
     @media (max-width: 768px) {
@@ -212,7 +346,7 @@
 
     const connectWallet = document.getElementById('connectWallet');
     const walletAddress = document.getElementById('walletAddress');
-
+    
     connectWallet.addEventListener('click', async () => {
       try {
         if (window.sdk?.wallet?.ethProvider) {
@@ -255,19 +389,14 @@
         const contract = new ethers.Contract(contractAddress, abi, signer);
 
         const remainingNFTs = await contract.remainingNFTs();
-        console.log("Remaining NFTs:", remainingNFTs.toString());
-
         if (remainingNFTs.toNumber() <= 0) {
           alert("No NFTs left to mint.");
           return;
         }
 
         const price = await contract.price();
-        console.log("Price for minting:", price.toString());
-
         if (price > 0) {
           const txResponse = await contract.claim({ value: price });
-
           console.log('Transaction sent:', txResponse.hash);
           alert('Transaction submitted!');
         } else {
@@ -287,73 +416,82 @@
       address = null;
     });
 
-    // Create stars
     function createStars() {
       const starsContainer = document.getElementById('stars');
-      const starCount = 50;
+      const starCount = 30;
       
       for (let i = 0; i < starCount; i++) {
-        const star = document.createElement('div');
-        star.classList.add('star');
-        
-        // Random properties
-        const size = Math.random() * 3 + 1;
-        const duration = Math.random() * 5 + 3 + 's';
-        const delay = Math.random() * 5 + 's';
-        
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        star.style.left = `${Math.random() * 100}vw`;
-        star.style.top = `${Math.random() * 100}vh`;
-        star.style.setProperty('--duration', duration);
-        star.style.animationDelay = delay;
-        
-        starsContainer.appendChild(star);
+        setTimeout(() => {
+          const star = document.createElement('div');
+          star.classList.add('star');
+          const size = Math.random() * 2 + 1;
+          star.style.cssText = `
+            width: ${size}px;
+            height: ${size}px;
+            left: ${Math.random() * 100}vw;
+            top: ${Math.random() * 100}vh;
+            --duration: ${Math.random() * 4 + 2}s;
+            animation-delay: ${Math.random() * 2}s;
+          `;
+          starsContainer.appendChild(star);
+        }, i * 100);
       }
     }
 
-    // Create particles
+    function addWaveEffect(button) {
+      button.addEventListener('mouseenter', (e) => {
+        const wave = document.createElement('div');
+        wave.classList.add('wave-effect');
+        const rect = button.getBoundingClientRect();
+        wave.style.left = `${e.clientX - rect.left}px`;
+        wave.style.top = `${e.clientY - rect.top}px`;
+        button.appendChild(wave);
+        setTimeout(() => wave.remove(), 600);
+      });
+    }
+
     function createParticle() {
       const colors = ['#2ecc71', '#FF5252'];
       const color = colors[Math.floor(Math.random() * colors.length)];
       
-      // Regular floating particles
       const particle = document.createElement('div');
       particle.classList.add('particle');
+      particle.style.cssText = `
+        left: ${Math.random() * window.innerWidth}px;
+        top: ${window.innerHeight}px;
+        width: ${Math.random() * 4 + 2}px;
+        height: ${Math.random() * 4 + 2}px;
+        background: ${color};
+        opacity: ${Math.random() * 0.5 + 0.2};
+      `;
       document.getElementById('particles').appendChild(particle);
-      particle.style.left = `${Math.random() * window.innerWidth}px`;
-      particle.style.top = `${window.innerHeight}px`;
-      const size = Math.random() * 4 + 2;
-      particle.style.width = `${size}px`;
-      particle.style.height = `${size}px`;
-      particle.style.background = color;
-      particle.style.opacity = Math.random() * 0.5 + 0.2;
-      
-      // Wave-like particles
+
       if (Math.random() > 0.7) {
         const wave = document.createElement('div');
         wave.classList.add('wave-particle');
+        wave.style.cssText = `
+          left: ${Math.random() * window.innerWidth}px;
+          top: ${window.innerHeight}px;
+          width: ${Math.random() * 100 + 50}px;
+          height: ${Math.random() * 100 + 50}px;
+          background: ${color};
+          border-radius: 50%;
+          filter: blur(10px);
+        `;
         document.getElementById('particles').appendChild(wave);
-        wave.style.left = `${Math.random() * window.innerWidth}px`;
-        wave.style.top = `${window.innerHeight}px`;
-        wave.style.width = `${Math.random() * 100 + 50}px`;
-        wave.style.height = `${Math.random() * 100 + 50}px`;
-        wave.style.background = color;
-        wave.style.borderRadius = '50%';
-        wave.style.filter = 'blur(10px)';
-        
         setTimeout(() => wave.remove(), 8000);
       }
 
       setTimeout(() => particle.remove(), 15000);
     }
 
-    // Initialize effects
-    createStars();
-    for (let i = 0; i < 50; i++) {
-      createParticle();
-    }
-    setInterval(createParticle, 300);
+    window.addEventListener('DOMContentLoaded', () => {
+      createStars();
+      addWaveEffect(connectWallet);
+      addWaveEffect(mintButton);
+      for (let i = 0; i < 30; i++) createParticle();
+      setInterval(createParticle, 500);
+    });
   </script>
 </body>
 </html>
