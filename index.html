@@ -46,7 +46,7 @@
       box-shadow: 0 4px 20px rgba(46, 204, 113, 0.3);
     }
     .wallet-btn:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 25px rgba(46, 204, 113, 0.4); }
-    .wallet-btn svg { width: 20px; height: 20px; display: block; flex: 0 0 20px; }
+    .wallet-btn img { width: 20px; height: 20px; display: block; flex: 0 0 20px; }
     .wallet-address {
       background: var(--gray-800); padding: 10px 20px; border-radius: 12px;
       font-size: 14px; font-weight: 500; display: none;
@@ -131,15 +131,7 @@
   <div class="container">
     <header>
       <button class="wallet-btn" id="connectWallet" aria-label="Open Farcaster">
-        <!-- Inline SVG: stylized arch-like Farcaster logo (vector) -->
-        <svg viewBox="0 0 64 64" role="img" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
-          <title>Farcaster logo</title>
-          <rect width="64" height="64" rx="4" fill="transparent"/>
-          <!-- top bar -->
-          <path d="M8 10h48v6h-11v4H11v-4H8z" fill="#FFFFFF"/>
-          <!-- arch -->
-          <path d="M16 54h32l-6-28a10 10 0 0 0-20 0z" fill="#FFFFFF"/>
-        </svg>
+        <img src="https://i.imgur.com/1Cjuehu_d.webp?maxwidth=760&fidelity=grand" alt="Farcaster logo" />
         <span>farcaster</span>
       </button>
       <div class="wallet-address" id="walletAddress"></div>
@@ -191,41 +183,13 @@
     const connectWallet = document.getElementById('connectWallet');
     const walletAddress = document.getElementById('walletAddress');
 
-    // open farcaster link on click (keeps original wallet code commented below)
     connectWallet.addEventListener('click', async () => {
       window.open('https://farcaster.xyz/~/code/P4956H', '_blank');
-
-      /*
-      try {
-        if (window.sdk?.wallet?.ethProvider) {
-          provider = new ethers.BrowserProvider(window.sdk.wallet.ethProvider);
-          await provider.send("eth_requestAccounts", []);
-          signer = await provider.getSigner();
-          address = await signer.getAddress();
-
-          connectWallet.style.display = 'none';
-          walletAddress.style.display = 'block';
-          walletAddress.textContent = `${address.slice(0, 6)}...${address.slice(-4)}`;
-        } else {
-          alert('Please open this app inside Warpcast to connect your wallet.');
-        }
-      } catch (error) {
-        console.error("Wallet connection failed:", error);
-      }
-      */
     });
 
     const mintButton = document.getElementById('mintButton');
     mintButton.addEventListener('click', async () => {
       window.open('https://t.me/FRBXK', '_blank');
-
-      /*
-      if (!window.sdk?.wallet?.ethProvider) {
-        alert('Please open this app inside Warpcast to connect your wallet.');
-        return;
-      }
-      // original mint logic...
-      */
     });
 
     walletAddress.addEventListener('click', () => {
@@ -244,8 +208,6 @@
       const size = Math.random() * 3 + 2;
       particle.style.width = `${size}px`;
       particle.style.height = `${size}px`;
-      
-      // Only red and green colors
       const colors = ['#FF5252', '#2ecc71'];
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
       particle.style.background = randomColor;
