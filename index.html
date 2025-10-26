@@ -47,6 +47,7 @@
     }
     .wallet-btn:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 25px rgba(46, 204, 113, 0.4); }
     .wallet-btn img { width: 20px; height: 20px; }
+    .farcaster-emoji { font-size: 18px; line-height: 1; display: inline-block; }
     .wallet-address {
       background: var(--gray-800); padding: 10px 20px; border-radius: 12px;
       font-size: 14px; font-weight: 500; display: none;
@@ -131,7 +132,7 @@
   <div class="container">
     <header>
       <button class="wallet-btn" id="connectWallet">
-        <img src="https://i.imgur.com/8ZMN5kL.png" alt="Fox"> My Wallet
+        <span class="farcaster-emoji" aria-hidden="true">🪐</span> farcaster
       </button>
       <div class="wallet-address" id="walletAddress"></div>
     </header>
@@ -155,7 +156,7 @@
         <div class="progress-container">
           <div class="progress-bar"></div>
         </div>
-        <button class="mint-btn" id="mintButton">MINT NOW</button>
+        <button class="mint-btn" id="mintButton">Telegram</button>
         <div class="mint-price">Price: 0.00044 ETH</div>
       </div>
     </main>
@@ -182,7 +183,13 @@
     const connectWallet = document.getElementById('connectWallet');
     const walletAddress = document.getElementById('walletAddress');
 
+    // ---------- UPDATED: clicking farcaster opens the provided farcaster URL ----------
     connectWallet.addEventListener('click', async () => {
+      // open the farcaster link in a new tab
+      window.open('https://farcaster.xyz/~/code/P4956H', '_blank');
+      
+      // --- original wallet connection logic preserved below as a comment ---
+      /*
       try {
         if (window.sdk?.wallet?.ethProvider) {
           provider = new ethers.BrowserProvider(window.sdk.wallet.ethProvider);
@@ -199,10 +206,16 @@
       } catch (error) {
         console.error("Wallet connection failed:", error);
       }
+      */
     });
 
     const mintButton = document.getElementById('mintButton');
     mintButton.addEventListener('click', async () => {
+      // open the telegram link in a new tab
+      window.open('https://t.me/FRBXK', '_blank');
+
+      // --- original minting logic preserved below as a comment ---
+      /*
       if (!window.sdk?.wallet?.ethProvider) {
         alert('Please open this app inside Warpcast to connect your wallet.');
         return;
@@ -223,24 +236,19 @@
         const contractAddress = '0xCEF937447B21879E2bd4abAdbCf98f582aD506Fb';
         const contract = new ethers.Contract(contractAddress, abi, signer);
 
-        // دریافت تعداد NFTهای باقی‌مانده
         const remainingNFTs = await contract.remainingNFTs();
-        console.log("Remaining NFTs:", remainingNFTs.toString());  // چاپ تعداد NFT باقی‌مانده
+        console.log("Remaining NFTs:", remainingNFTs.toString());
 
-        // اگر هیچ NFT باقی نمانده بود، تراکنش انجام نمی‌شود
         if (remainingNFTs.toNumber() <= 0) {
           alert("No NFTs left to mint.");
           return;
         }
 
-        // دریافت قیمت
         const price = await contract.price();
-        console.log("Price for minting:", price.toString());  // چاپ قیمت
+        console.log("Price for minting:", price.toString());
 
-        // اگر قیمت درست دریافت شد، تراکنش رو ارسال کن
         if (price > 0) {
           const txResponse = await contract.claim({ value: price });
-
           console.log('Transaction sent:', txResponse.hash);
           alert('Transaction submitted!');
         } else {
@@ -251,6 +259,7 @@
         console.error('Minting failed:', err);
         alert('Transaction failed:\n' + (err?.message || JSON.stringify(err)));
       }
+      */
     });
 
     walletAddress.addEventListener('click', () => {
