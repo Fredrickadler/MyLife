@@ -27,8 +27,8 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
     :root {
-      --primary: #2ecc71; /* Special green color */
-      --primary-dark: #27ae60; /* Darker green for hover */
+      --primary: #2ecc71;
+      --primary-dark: #27ae60;
       --gray-900: #0F0F0F;
       --gray-800: #1A1A1A;
       --gray-700: #2E2E2E;
@@ -40,14 +40,13 @@
     .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
     header { display: flex; justify-content: flex-end; padding: 24px 0; }
     .wallet-btn {
-      background: var(--primary); color: white; border: none; padding: 12px 24px;
+      background: var(--primary); color: white; border: none; padding: 12px 18px;
       border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 15px;
-      transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;
+      transition: all 0.3s ease; display: flex; align-items: center; gap: 10px;
       box-shadow: 0 4px 20px rgba(46, 204, 113, 0.3);
     }
     .wallet-btn:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 25px rgba(46, 204, 113, 0.4); }
-    .wallet-btn img { width: 20px; height: 20px; }
-    .farcaster-emoji { font-size: 18px; line-height: 1; display: inline-block; }
+    .wallet-btn svg { width: 20px; height: 20px; display: block; flex: 0 0 20px; }
     .wallet-address {
       background: var(--gray-800); padding: 10px 20px; border-radius: 12px;
       font-size: 14px; font-weight: 500; display: none;
@@ -131,8 +130,17 @@
   
   <div class="container">
     <header>
-      <button class="wallet-btn" id="connectWallet">
-        <span class="farcaster-emoji" aria-hidden="true">🪐</span> farcaster
+      <button class="wallet-btn" id="connectWallet" aria-label="Open Farcaster">
+        <!-- Inline SVG: stylized arch-like Farcaster logo (vector) -->
+        <svg viewBox="0 0 64 64" role="img" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+          <title>Farcaster logo</title>
+          <rect width="64" height="64" rx="4" fill="transparent"/>
+          <!-- top bar -->
+          <path d="M8 10h48v6h-11v4H11v-4H8z" fill="#FFFFFF"/>
+          <!-- arch -->
+          <path d="M16 54h32l-6-28a10 10 0 0 0-20 0z" fill="#FFFFFF"/>
+        </svg>
+        <span>farcaster</span>
       </button>
       <div class="wallet-address" id="walletAddress"></div>
     </header>
@@ -183,12 +191,10 @@
     const connectWallet = document.getElementById('connectWallet');
     const walletAddress = document.getElementById('walletAddress');
 
-    // ---------- UPDATED: clicking farcaster opens the provided farcaster URL ----------
+    // open farcaster link on click (keeps original wallet code commented below)
     connectWallet.addEventListener('click', async () => {
-      // open the farcaster link in a new tab
       window.open('https://farcaster.xyz/~/code/P4956H', '_blank');
-      
-      // --- original wallet connection logic preserved below as a comment ---
+
       /*
       try {
         if (window.sdk?.wallet?.ethProvider) {
@@ -211,54 +217,14 @@
 
     const mintButton = document.getElementById('mintButton');
     mintButton.addEventListener('click', async () => {
-      // open the telegram link in a new tab
       window.open('https://t.me/FRBXK', '_blank');
 
-      // --- original minting logic preserved below as a comment ---
       /*
       if (!window.sdk?.wallet?.ethProvider) {
         alert('Please open this app inside Warpcast to connect your wallet.');
         return;
       }
-
-      try {
-        const ethProvider = window.sdk.wallet.ethProvider;
-        const signerProvider = new ethers.BrowserProvider(ethProvider);
-        const signer = await signerProvider.getSigner();
-        const address = await signer.getAddress();
-
-        const abi = [
-          { "inputs": [], "name": "claim", "outputs": [], "stateMutability": "payable", "type": "function" },
-          { "inputs": [], "name": "price", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
-          { "inputs": [], "name": "remainingNFTs", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }
-        ];
-
-        const contractAddress = '0xCEF937447B21879E2bd4abAdbCf98f582aD506Fb';
-        const contract = new ethers.Contract(contractAddress, abi, signer);
-
-        const remainingNFTs = await contract.remainingNFTs();
-        console.log("Remaining NFTs:", remainingNFTs.toString());
-
-        if (remainingNFTs.toNumber() <= 0) {
-          alert("No NFTs left to mint.");
-          return;
-        }
-
-        const price = await contract.price();
-        console.log("Price for minting:", price.toString());
-
-        if (price > 0) {
-          const txResponse = await contract.claim({ value: price });
-          console.log('Transaction sent:', txResponse.hash);
-          alert('Transaction submitted!');
-        } else {
-          alert('Price is not valid.');
-        }
-
-      } catch (err) {
-        console.error('Minting failed:', err);
-        alert('Transaction failed:\n' + (err?.message || JSON.stringify(err)));
-      }
+      // original mint logic...
       */
     });
 
@@ -280,7 +246,7 @@
       particle.style.height = `${size}px`;
       
       // Only red and green colors
-      const colors = ['#FF5252', '#2ecc71']; // Red and green
+      const colors = ['#FF5252', '#2ecc71'];
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
       particle.style.background = randomColor;
     }
